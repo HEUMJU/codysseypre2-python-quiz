@@ -84,11 +84,12 @@ class QuizGame:
 
     def add_quiz(self):
         """새로운 퀴즈 추가"""
-        print("\n[퀴즈 추가]")
+        print("\n========== 퀴즈 추가 ==========")
 
-        question = self.get_text("질문을 입력하세요: ")
+        question = self.get_text("문제를 입력하세요: ")
 
         choices = []
+
         for i in range(4):
             choice = self.get_text(f"{i + 1}번 선택지를 입력하세요: ")
             choices.append(choice)
@@ -96,10 +97,11 @@ class QuizGame:
         answer = self.get_number("정답 번호를 입력하세요 (1~4): ", 1, 4)
 
         quiz = Quiz(question, choices, answer)
-        self.quizzes.append(quiz)
 
+        self.quizzes.append(quiz)
         self.save_data()
-        print("퀴즈가 추가되었습니다.")
+
+        print("새로운 퀴즈가 추가되었습니다!")
 
     def show_quizzes(self):
         """등록된 퀴즈 목록 출력"""

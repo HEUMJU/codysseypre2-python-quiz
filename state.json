@@ -1,4 +1,15 @@
 {
-    "quizzes": [],
+    "quizzes": [
+        {
+            "question": "Python은 무엇인가요?",
+            "choices": [
+                "운영체제",
+                "프로그래밍 언어",
+                "데이터베이스",
+                "웹 브라우저"
+            ],
+            "answer": 2
+        }
+    ],
     "best_score": 0
 }
