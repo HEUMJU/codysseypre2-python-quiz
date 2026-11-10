@@ -119,8 +119,11 @@ class QuizGame:
 
     def show_score(self):
         """최고 점수 출력"""
-        pass
+        print("\n========== 최고 점수 ==========")
 
+        print(f"현재 최고 점수: {self.best_score}점")
+
+        print("===============================")
 
     def get_number(self, prompt, min_value, max_value):
         """숫자 입력 및 범위 검증"""
