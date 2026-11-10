@@ -84,23 +84,68 @@ class QuizGame:
 
     def add_quiz(self):
         """새로운 퀴즈 추가"""
-        pass
+        print("\n[퀴즈 추가]")
+
+        question = self.get_text("질문을 입력하세요: ")
+
+        choices = []
+        for i in range(4):
+            choice = self.get_text(f"{i + 1}번 선택지를 입력하세요: ")
+            choices.append(choice)
+
+        answer = self.get_number("정답 번호를 입력하세요 (1~4): ", 1, 4)
+
+        quiz = Quiz(question, choices, answer)
+        self.quizzes.append(quiz)
+
+        self.save_data()
+        print("퀴즈가 추가되었습니다.")
 
     def show_quizzes(self):
         """등록된 퀴즈 목록 출력"""
-        pass
+        print("\n[퀴즈 목록]")
+
+        if not self.quizzes:
+            print("등록된 퀴즈가 없습니다.")
+            return
+
+        for i, quiz in enumerate(self.quizzes, start=1):
+            print(f"\n{i}. {quiz.question}")
+
+            for j, choice in enumerate(quiz.choices, start=1):
+                print(f"   {j}. {choice}")
+
+            print(f"   정답: {quiz.answer}번")
 
     def show_score(self):
         """최고 점수 출력"""
         pass
 
+
     def get_number(self, prompt, min_value, max_value):
         """숫자 입력 및 범위 검증"""
-        pass
+        while True:
+            try:
+                value = input(prompt).strip()
+                number = int(value)
+
+                if min_value <= number <= max_value:
+                    return number
+
+                print(f"{min_value}부터 {max_value} 사이의 숫자를 입력하세요.")
+
+            except ValueError:
+                print("올바른 숫자를 입력하세요.")
 
     def get_text(self, prompt):
         """문자열 입력 및 빈 문자열 검증"""
-        pass
+        while True:
+            value = input(prompt).strip()
+
+            if value:
+                return value
+
+            print("빈 문자열은 입력할 수 없습니다.")
 
     def run(self):
         """게임 메인 실행"""
