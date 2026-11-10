@@ -27,13 +27,56 @@ class QuizGame:
         print("5. 종료")
         print("======================================")
 
+    
     def load_data(self):
         """JSON 파일에서 퀴즈와 점수 불러오기"""
-        pass
+        try:
+            with open(self.state_path, "r", encoding="utf-8") as file:
+                data = json.load(file)
 
+            # JSON 데이터 구조 확인
+            if not isinstance(data, dict):
+                raise ValueError("JSON 데이터 형식이 올바르지 않습니다.")
+
+            quiz_data = data.get("quizzes", [])
+            best_score = data.get("best_score", 0)
+
+            if not isinstance(quiz_data, list):
+                raise ValueError("퀴즈 목록 형식이 올바르지 않습니다.")
+
+            if type(best_score) is not int or best_score < 0:
+                raise ValueError("최고 점수 형식이 올바르지 않습니다.")
+
+            self.quizzes = [Quiz.from_dict(item) for item in quiz_data]
+            self.best_score = best_score
+
+            print("저장된 데이터를 불러왔습니다.")
+
+        except FileNotFoundError:
+            print("저장 파일이 없습니다. 새 데이터를 생성합니다.")
+            self.save_data()
+
+        except (json.JSONDecodeError, ValueError, KeyError, TypeError) as e:
+            print(f"저장 파일의 데이터가 올바르지 않습니다: {e}")
+
+        except OSError as e:
+            print(f"파일을 읽는 중 오류가 발생했습니다: {e}")
+        
     def save_data(self):
         """퀴즈와 점수를 JSON 파일에 저장하기"""
-        pass
+        data = {
+            "quizzes": [quiz.to_dict() for quiz in self.quizzes],
+            "best_score": self.best_score
+        }
+
+        try:
+            with open(self.state_path, "w", encoding="utf-8") as file:
+                json.dump(data, file, ensure_ascii=False, indent=4)
+
+            print("데이터를 저장했습니다.")
+
+        except OSError as e:
+            print(f"파일 저장 중 오류가 발생했습니다: {e}")
 
     def play_quiz(self):
         """퀴즈 진행"""
