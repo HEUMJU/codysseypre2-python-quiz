@@ -105,19 +105,17 @@ class QuizGame:
 
     def show_quizzes(self):
         """등록된 퀴즈 목록 출력"""
-        print("\n[퀴즈 목록]")
+        print("\n========== 퀴즈 목록 ==========")
 
         if not self.quizzes:
             print("등록된 퀴즈가 없습니다.")
             return
 
-        for i, quiz in enumerate(self.quizzes, start=1):
-            print(f"\n{i}. {quiz.question}")
+        for index, quiz in enumerate(self.quizzes, start=1):
+            print(f"\n[{index}번 문제]")
+            quiz.display()
 
-            for j, choice in enumerate(quiz.choices, start=1):
-                print(f"   {j}. {choice}")
-
-            print(f"   정답: {quiz.answer}번")
+        print("\n총 등록된 퀴즈:", len(self.quizzes), "개")
 
     def show_score(self):
         """최고 점수 출력"""
