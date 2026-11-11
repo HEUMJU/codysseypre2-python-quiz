@@ -1,5 +1,6 @@
 
 import json
+import random
 from pathlib import Path
 
 from quiz import Quiz
@@ -121,7 +122,11 @@ class QuizGame:
 
         score = 0
 
-        for index, quiz in enumerate(self.quizzes, start=1):
+        # 기존 퀴즈 목록을 복사한 후 무작위로 섞기
+        quiz_list = self.quizzes.copy()
+        random.shuffle(quiz_list)
+
+        for index, quiz in enumerate(quiz_list, start=1):
             print(f"\n[{index}/{len(self.quizzes)}번 문제]")
 
             quiz.display()
