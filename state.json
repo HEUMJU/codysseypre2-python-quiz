@@ -9,7 +9,107 @@
                 "웹 브라우저"
             ],
             "answer": 2
+        },
+        {
+            "question": "[Python] Python에서 화면에 문자열을 출력하는 함수는?",
+            "choices": [
+                "input()",
+                "print()",
+                "int()",
+                "type()"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "[Python] 리스트에 새로운 요소를 추가하는 메서드는?",
+            "choices": [
+                "remove()",
+                "pop()",
+                "append()",
+                "clear()"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "[Linux] 현재 작업 디렉터리를 확인하는 명령어는?",
+            "choices": [
+                "ls",
+                "cd",
+                "pwd",
+                "mkdir"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "[Linux] 파일의 권한을 변경하는 명령어는?",
+            "choices": [
+                "chmod",
+                "chown",
+                "grep",
+                "cat"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "[Docker] Docker 이미지를 기반으로 실행되는 것은?",
+            "choices": [
+                "브랜치",
+                "컨테이너",
+                "커밋",
+                "볼륨"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "[Docker] 컨테이너 데이터를 영속적으로 보관하는 기능은?",
+            "choices": [
+                "이미지",
+                "포트",
+                "볼륨",
+                "네트워크"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "[Git] 변경된 파일을 스테이징 영역에 추가하는 명령어는?",
+            "choices": [
+                "git push",
+                "git add",
+                "git pull",
+                "git clone"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "[Git] 원격 저장소의 변경사항을 가져와 통합하는 명령어는?",
+            "choices": [
+                "git commit",
+                "git init",
+                "git pull",
+                "git status"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "[Network] IP 주소의 주요 역할은?",
+            "choices": [
+                "컴퓨터의 네트워크상 주소 식별",
+                "파일 압축",
+                "프로그램 실행",
+                "데이터 암호화"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "[Network] HTTP의 기본 포트 번호는?",
+            "choices": [
+                "21",
+                "22",
+                "80",
+                "443"
+            ],
+            "answer": 3
         }
     ],
-    "best_score": 1
+    "best_score": 11
 }
