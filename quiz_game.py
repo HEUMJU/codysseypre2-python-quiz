@@ -186,7 +186,44 @@ class QuizGame:
                 return value
 
             print("빈 문자열은 입력할 수 없습니다.")
-
+    
     def run(self):
         """게임 메인 실행"""
-        pass
+        print("\nIT 기초 퀴즈 게임에 오신 것을 환영합니다!")
+
+        try:
+            while True:
+                self.show_menu()
+
+                choice = self.get_number(
+                    "메뉴를 선택하세요 (1~5): ",
+                    1,
+                    5
+                )
+
+                if choice == 1:
+                    self.play_quiz()
+
+                elif choice == 2:
+                    self.add_quiz()
+
+                elif choice == 3:
+                    self.show_quizzes()
+
+                elif choice == 4:
+                    self.show_score()
+
+                elif choice == 5:
+                    self.save_data()
+                    print("게임을 종료합니다.")
+                    break
+
+        except KeyboardInterrupt:
+            print("\n사용자가 프로그램을 중단했습니다.")
+            self.save_data()
+            print("게임을 종료합니다.")
+
+        except EOFError:
+            print("\n입력이 종료되었습니다.")
+            self.save_data()
+            print("게임을 종료합니다.")
