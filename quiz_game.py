@@ -11,6 +11,7 @@ class QuizGame:
     def __init__(self):
         self.quizzes = []
         self.best_score = 0
+        self.data_loaded = False
 
         # 현재 파일이 위치한 폴더를 기준으로 state.json 경로 설정
         self.state_path = Path(__file__).parent / "state.json"
@@ -28,47 +29,79 @@ class QuizGame:
         print("======================================")
 
     def load_data(self):
-        """JSON 파일에서 퀴즈와 점수 불러오기"""
         try:
             with open(self.state_path, "r", encoding="utf-8") as file:
                 data = json.load(file)
 
-            # JSON 데이터 구조 확인
             if not isinstance(data, dict):
-                raise ValueError("JSON 데이터 형식이 올바르지 않습니다.")
+                raise ValueError("저장 데이터 형식이 올바르지 않습니다.")
 
-            quiz_data = data.get("quizzes", [])
-            best_score = data.get("best_score", 0)
-
-            if not isinstance(quiz_data, list):
+            if not isinstance(data.get("quizzes"), list):
                 raise ValueError("퀴즈 목록 형식이 올바르지 않습니다.")
 
-            if type(best_score) is not int or best_score < 0:
+            if type(data.get("best_score")) is not int or data["best_score"] < 0:
                 raise ValueError("최고 점수 형식이 올바르지 않습니다.")
 
-            self.quizzes = [Quiz.from_dict(item) for item in quiz_data]
-            self.best_score = best_score
+            loaded_quizzes = []
 
-            print("저장된 데이터를 불러왔습니다.")
+            for item in data["quizzes"]:
+                if not isinstance(item, dict):
+                    raise ValueError("퀴즈 데이터 형식이 올바르지 않습니다.")
+
+                question = item.get("question")
+                choices = item.get("choices")
+                answer = item.get("answer")
+
+                if not isinstance(question, str) or not question.strip():
+                    raise ValueError("질문 데이터가 올바르지 않습니다.")
+
+                if (
+                    not isinstance(choices, list)
+                    or len(choices) != 4
+                    or not all(isinstance(choice, str) and choice.strip() for choice in choices)
+                ):
+                    raise ValueError("선택지 데이터가 올바르지 않습니다.")
+
+                if type(answer) is not int or not 1 <= answer <= 4:
+                    raise ValueError("정답 데이터가 올바르지 않습니다.")
+
+                loaded_quizzes.append(Quiz.from_dict(item))
+
+            self.quizzes = loaded_quizzes
+            self.best_score = data["best_score"]
+            self.data_loaded = True
+
+            print("저장 데이터를 불러왔습니다.")
 
         except FileNotFoundError:
-            print("저장 파일이 없습니다. 새 데이터를 생성합니다.")
+            print("저장 파일이 없습니다. 새 게임 데이터를 생성합니다.")
+            self.quizzes = []
+            self.best_score = 0
+            self.data_loaded = True
             self.save_data()
 
         except (json.JSONDecodeError, ValueError, KeyError, TypeError) as e:
             print(f"저장 파일의 데이터가 올바르지 않습니다: {e}")
+            print("기존 저장 파일을 보호하기 위해 저장 기능을 제한합니다.")
+            self.quizzes = []
+            self.best_score = 0
+            self.data_loaded = False
 
         except OSError as e:
             print(f"파일을 읽는 중 오류가 발생했습니다: {e}")
-        
+            self.data_loaded = False
+
     def save_data(self):
-        """퀴즈와 점수를 JSON 파일에 저장하기"""
-        data = {
-            "quizzes": [quiz.to_dict() for quiz in self.quizzes],
-            "best_score": self.best_score
-        }
+        if not self.data_loaded:
+            print("데이터를 정상적으로 불러오지 못해 저장을 취소합니다.")
+            return
 
         try:
+            data = {
+                "quizzes": [quiz.to_dict() for quiz in self.quizzes],
+                "best_score": self.best_score
+            }
+
             with open(self.state_path, "w", encoding="utf-8") as file:
                 json.dump(data, file, ensure_ascii=False, indent=4)
 
@@ -128,10 +161,22 @@ class QuizGame:
         choices = []
 
         for i in range(4):
-            choice = self.get_text(f"{i + 1}번 선택지를 입력하세요: ")
-            choices.append(choice)
+            while True:
+                choice = self.get_text(
+                    f"{i + 1}번 선택지를 입력하세요: "
+                )
 
-        answer = self.get_number("정답 번호를 입력하세요 (1~4): ", 1, 4)
+                if choice in choices:
+                    print("이미 등록된 선택지입니다. 다른 내용을 입력하세요.")
+                else:
+                    choices.append(choice)
+                    break
+
+        answer = self.get_number(
+            "정답 번호를 입력하세요 (1~4): ",
+            1,
+            4
+        )
 
         quiz = Quiz(question, choices, answer)
 
