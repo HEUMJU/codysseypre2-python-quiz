@@ -109,6 +109,16 @@
                 "443"
             ],
             "answer": 3
+        },
+        {
+            "question": "Python에서 문자열을 출력하는 함수는?",
+            "choices": [
+                "print()",
+                "input()",
+                "len()",
+                "type()"
+            ],
+            "answer": 1
         }
     ],
     "best_score": 11

@@ -43,10 +43,22 @@ python main.py
 
 ```text
 codysseypre2-python-quiz/
+│
 ├── main.py
 ├── quiz.py
 ├── quiz_game.py
 ├── state.json
+│
+├── docs/                  # 참고 문서
+│
+├── screenshots/           # 제출용 스크린샷
+│   ├── 01_environment.png
+│   ├── 02_quiz_add.png
+│   ├── 03_quiz_list.png
+│   ├── 04_quiz_play.png
+│   ├── 05_best_score.png
+│   └── 06_git_history.png
+│
 ├── README.md
 └── .gitignore
 ```
