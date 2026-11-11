@@ -27,7 +27,6 @@ class QuizGame:
         print("5. 종료")
         print("======================================")
 
-    
     def load_data(self):
         """JSON 파일에서 퀴즈와 점수 불러오기"""
         try:
@@ -79,8 +78,46 @@ class QuizGame:
             print(f"파일 저장 중 오류가 발생했습니다: {e}")
 
     def play_quiz(self):
-        """퀴즈 진행"""
-        pass
+        """퀴즈 진행 및 점수 계산"""
+        print("\n========== 퀴즈 시작 ==========")
+
+        if not self.quizzes:
+            print("등록된 퀴즈가 없습니다.")
+            print("먼저 퀴즈를 추가해 주세요.")
+            return
+
+        score = 0
+
+        for index, quiz in enumerate(self.quizzes, start=1):
+            print(f"\n[{index}/{len(self.quizzes)}번 문제]")
+
+            quiz.display()
+
+            user_answer = self.get_number(
+                "정답 번호를 입력하세요: ",
+                1,
+                len(quiz.choices)
+            )
+
+            if quiz.check_answer(user_answer):
+                print("정답입니다!")
+                score += 1
+            else:
+                print(f"오답입니다. 정답은 {quiz.answer}번입니다.")
+
+        print("\n========== 퀴즈 결과 ==========")
+        print(f"총 문제 수: {len(self.quizzes)}개")
+        print(f"맞힌 문제 수: {score}개")
+        print(f"틀린 문제 수: {len(self.quizzes) - score}개")
+
+        if score > self.best_score:
+            self.best_score = score
+            print("축하합니다! 최고 점수를 갱신했습니다.")
+            self.save_data()
+        else:
+            print(f"현재 최고 점수는 {self.best_score}점입니다.")
+
+        print(f"최종 점수: {score}점")
 
     def add_quiz(self):
         """새로운 퀴즈 추가"""
